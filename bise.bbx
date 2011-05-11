@@ -1,0 +1,57 @@
+\ProvidesFile{bise.bbx}
+
+\RequireBibliographyStyle{standard}
+
+\ExecuteBibliographyOptions{labelyear=true,%
+                            sorting=nyt,%
+                            pagetracker=true,%
+                            firstinits=true,%
+                            useprefix=true,%
+                            usetranslator=false,%
+                            uniquelist=true,%
+                            uniquename=init,%
+                            citetracker=true,%
+                            maxnames=99,%
+                            minnames=99,%
+                            abbreviate=true,%
+                            mincrossrefs=999,%
+                            alldates=apalong}
+
+\DeclareNameFormat{apaauthor}{%
+  \ifthenelse{\value{listcount}=\maxprtauth\AND\value{listcount}<\value{liststop}}
+    {\addcomma\addspace\ldots}
+    {\ifthenelse{\value{listcount}>\maxprtauth\AND\value{listcount}<\value{liststop}}
+      {}
+      {\ifthenelse{\iffieldequalstr{usere}{unkauth}\OR\iffieldequalstr{usere}{unkauthdate}}
+        {\mkbibbrackets{\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}?}}
+        {\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}}}}}
+
+\renewbibmacro*{author}{%
+  \ifnameundef{author}
+    {\usebibmacro{labeltitle}}
+    {\printnames[biseauthor]{author}%
+     \setunit*{\addspace}%
+     \printfield{nameaddon}}%
+  \newunit\newblock%
+  \usebibmacro{labelyear+extrayear}}
+
+\renewbibmacro*{author/editor}{%
+  \ifnameundef{author}
+    {\ifnameundef{editor}
+      {}
+      {\usebibmacro{editorinauthpos}}}
+    {\global\boolfalse{bbx:editorinauthpos}%
+     \usebibmacro{author}}}
+
+							
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\addspace}\newblock
+  \usebibmacro{maintitle+title}%
+  \setunit{\addspace}\newblock
+  \newunit\newblock
+  \usebibmacro{location+publisher}%
+  \usebibmacro{bise:finpunct}%
+  \usebibmacro{finentry}}
