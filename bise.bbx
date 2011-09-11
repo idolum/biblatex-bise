@@ -29,45 +29,288 @@
                             citetracker=true,%
                             maxnames=99,%
                             minnames=99,%
+                            mincitenames=1,%
+                            maxcitenames=2,%
                             abbreviate=true,%
                             mincrossrefs=999,%
-                            alldates=apalong}
+                            terseinits=true,%
+                            abbreviate=true,%
+                            urldate=iso8601}%
 
-\DeclareNameFormat{apaauthor}{%
-  \ifthenelse{\value{listcount}=\maxprtauth\AND\value{listcount}<\value{liststop}}
-    {\addcomma\addspace\ldots}
-    {\ifthenelse{\value{listcount}>\maxprtauth\AND\value{listcount}<\value{liststop}}
-      {}
-      {\ifthenelse{\iffieldequalstr{usere}{unkauth}\OR\iffieldequalstr{usere}{unkauthdate}}
-        {\mkbibbrackets{\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}?}}
-        {\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}}}}}
+\renewcommand*{\finentrypunct}{}
+\renewcommand*{\nameyeardelim}{\space}
+
+\DefineBibliographyStrings{ngerman}{andothers={et\addabbrvspace al\adddot}}
+\DefineBibliographyStrings{german}{andothers={et\addabbrvspace al\adddot}}
+\DefineBibliographyStrings{german}{editor={Hrsg}}
+\DefineBibliographyStrings{ngerman}{editor={Hrsg}}
+\DefineBibliographyStrings{german}{in={In}}
+\DefineBibliographyStrings{ngerman}{in={In}}
+\DefineBibliographyStrings{german}{urlseen={Abruf am}}
+\DefineBibliographyStrings{ngerman}{urlseen={Abruf am}}
+\DefineBibliographyStrings{german}{doi={DOI:}}
+\DefineBibliographyStrings{ngerman}{doi={DOI:}}
+
+\DeclareNameFormat{biseauthor}{%
+  #1\space#4
+  \ifthenelse{\value{listcount}<\value{liststop}}
+    {\addcomma\space}
+    {}}
+    
+\DeclareFieldFormat{bisetitle}{%
+  \MakeSentenceCase*{#1}}
+
+\DeclareFieldFormat{bisejournaltitle}{%
+  #1}
+
+\DeclareFieldFormat{bisepages}{%
+  #1}
+  
+\DeclareFieldFormat{doi}{%
+  \href{http://dx.doi.org/#1}{#1}}
+  
+\DeclareFieldFormat{parens}{%
+  \mkbibparens{#1}}
+
+\DeclareListFormat{biselocation}{%
+  \ifthenelse{\value{listcount}=1}%
+    {#1}%
+    {}}
+ 
+\DeclareFieldFormat{biseurl}{%
+  \url{#1}}
+      
+\newbibmacro{organization}{%
+  \printlist{organization}}
+
+\newbibmacro{year}{%
+  \printfield[parens]{year}}
 
 \renewbibmacro*{author}{%
-  \ifnameundef{author}
-    {\usebibmacro{labeltitle}}
-    {\printnames[biseauthor]{author}%
-     \setunit*{\addspace}%
-     \printfield{nameaddon}}%
-  \newunit\newblock%
-  \usebibmacro{labelyear+extrayear}}
+  \ifnameundef{author}%
+    {\iflistundef{organization}%
+      {\printtext{oV}}%
+      {\usebibmacro{organization}}}%
+    {\printnames[biseauthor]{author}}}
 
-\renewbibmacro*{author/editor}{%
-  \ifnameundef{author}
-    {\ifnameundef{editor}
-      {}
-      {\usebibmacro{editorinauthpos}}}
-    {\global\boolfalse{bbx:editorinauthpos}%
-     \usebibmacro{author}}}
+\renewbibmacro{title+subtitle}{%
+  \printfield[bisetitle]{title}%
+  \iffieldundef{subtitle}%
+    {}%
+    {\setunit*{\addcolon\space}
+     \printfield[bisetitle]{subtitle}}}%
 
-							
+\renewbibmacro{journal}{%
+  \printfield[bisejournaltitle]{journaltitle}%
+  \setunit*{\addspace}%
+  \printfield{volume}%
+  \iffieldundef{number}%
+    {}%
+    {\printtext{(}%
+     \printfield{number}%
+     \printtext{)}}}
+  
+\newbibmacro{pages}{%
+  \iffieldundef{pages}%
+    {}
+    {\printfield[bisepages]{pages}}}
+  
+\newbibmacro{doi}{%
+  \iffieldundef{doi}%
+    {}%
+    {\bibstring{doi}%
+	 \addcolon\space
+	 \printfield[bisedoi]{doi}}}
+
+\newbibmacro{edition}{%
+  \iffieldundef{edition}%
+    {}%
+    {\setunit*{\addcomma\addspace}%
+     \printfield{edition}}}
+     
+\renewbibmacro{editor}{%
+  \ifnameundef{editor}%
+    {}%
+    {\printnames[biseauthor]{editor}%
+     \addspace
+     \mkbibparens{\bibstring{editor}}}}
+  
+\newbibmacro{publisher+location}{%
+  \printlist[1-1]{publisher}%
+  \setunit*{\addcomma\addspace}%
+  \printlist[biselocation]{location}}
+  
+\renewbibmacro{booktitle}{%
+  \printfield[bisetitle]{booktitle}
+  \iffieldundef{booksubtitle}%
+    {}%
+    {\addcolon\space
+     \printfield[bisetitle]{booksubtitle}}}
+     
+\newbibmacro{organization+venue}{%
+  \printlist{organization}%
+  \addcomma\space
+  \printfield{venue}}
+
+\newbibmacro{venue}{%
+  \printfield{venue}}
+
+\newbibmacro{type}{%
+  \printfield{type}}
+
+\renewbibmacro*{url}{%
+  \printfield[biseurl]{url}}
+  
+\newbibmacro{urldate}{%
+  \bibstring{urlseen}%
+  \addspace
+  \printurldate}
+    
+\newbibmacro{institution}{%
+  \printlist{institution}}
+  
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \usebibmacro{journal}%
+  \setunit*{\addcolon}%
+  \usebibmacro{pages}%
+  \newunit
+  \usebibmacro{doi}%
+  \finentry}
+
 \DeclareBibliographyDriver{book}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
-  \setunit{\addspace}\newblock
-  \usebibmacro{maintitle+title}%
-  \setunit{\addspace}\newblock
-  \newunit\newblock
-  \usebibmacro{location+publisher}%
-  \usebibmacro{bise:finpunct}%
-  \usebibmacro{finentry}}
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \usebibmacro{edition}%
+  \newunit
+  \usebibmacro{publisher+location}%
+  \finentry}
+
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \bibstring{in}%
+  \setunit*{\addcolon\addspace}%
+  \usebibmacro{editor}%
+  \setunit*{\addspace}%
+  \usebibmacro{booktitle}%
+  \usebibmacro{edition}%
+  \newunit
+  \usebibmacro{publisher+location}%
+  \setunit*{\addcomma\addspace}%
+  \usebibmacro{pages}%
+  \finentry}
+
+\DeclareBibliographyDriver{inproceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \bibstring{in}%
+  \addcolon\addspace
+  \usebibmacro{editor}%
+  \setunit*{\addspace}%
+  \usebibmacro{booktitle}%
+  \newunit
+  \ifnameundef{editor}%
+    {\iflistundef{publisher}%
+      {\usebibmacro{organization+venue}}%
+      {\usebibmacro{organization}%
+       \newunit
+       \usebibmacro{publisher+location}}}%
+    {\iflistundef{publisher}%
+      {\usebibmacro{venue}}%
+      {\usebibmacro{publisher+location}}}%
+  \setunit*{\addcomma\addspace}%
+  \bibstring{pages}%
+  \space
+  \usebibmacro{pages}%
+  \finentry}
+  
+\DeclareBibliographyDriver{manual}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \usebibmacro{type}%
+  \setunit*{\addcomma\space}%
+  \ifnameundef{author}%
+    {}%
+    {\usebibmacro{organization}}%
+  \finentry}
+
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \usebibmacro{url}%
+  \newunit
+  \usebibmacro{urldate}%
+  % \newunit
+  % \usebibmacro{type}%
+  % \setunit*{\addcomma\space}%
+  % \ifnameundef{author}%
+    % {}%
+    % {\usebibmacro{institution}}%
+  \finentry}
+  
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \usebibmacro{type}%
+  \newunit
+  \usebibmacro{institution}%
+  \finentry}
+  
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \usebibmacro{url}%
+  \newunit
+  \usebibmacro{urldate}%
+  \finentry}
+  
+\endinput
