@@ -22,25 +22,27 @@
                             autocite=inline}
 
 \newbibmacro*{pcite}{%
-  \ifnameundef{labelname}%
-    {\printlist{organization}}%
-    {\printnames{labelname}}%
-  \setunit{\nameyeardelim}%
-  \printfield{labelyear}}
+  \printtext[bibhyperref]{%
+    \ifnameundef{labelname}%
+      {\printlist{organization}}%
+      {\printnames{labelname}}%
+    \setunit{\nameyeardelim}%
+    \printfield{labelyear}%
+	\usebibmacro{postnote}}}
 
 \renewbibmacro*{cite}{%
   \ifnameundef{labelname}%
     {\printlist{organization}}%
     {\printnames{labelname}}%
   \addspace
-  \mkbibparens{\printfield{labelyear}\usebibmacro{postnote}}}
+  \mkbibparens{\printtext[bibhyperref]{\printfield{labelyear}\usebibmacro{postnote}}}}
   
 \DeclareCiteCommand{\parencite}[\mkbibparens]
   {\usebibmacro{prenote}}
   {\usebibmacro{citeindex}%
    \usebibmacro{pcite}}
   {\multicitedelim}
-  {\usebibmacro{postnote}}
+  {}
  
 \DeclareCiteCommand{\cite}%
   {\usebibmacro{prenote}}
