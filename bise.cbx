@@ -36,6 +36,11 @@
     {\printnames{labelname}}%
   \addspace
   \mkbibparens{\printtext[bibhyperref]{\printfield{labelyear}\usebibmacro{postnote}}}}
+
+\newbibmacro*{ycite}{%
+  \printtext[bibhyperref]{%
+    \printfield{labelyear}%
+	\usebibmacro{postnote}}}
   
 \DeclareCiteCommand{\parencite}[\mkbibparens]
   {\usebibmacro{prenote}}
@@ -47,6 +52,18 @@
 \DeclareCiteCommand{\cite}%
   {\usebibmacro{prenote}}
   {\usebibmacro{cite}}
+  {\multicitedelim}
+  {}
+  
+\DeclareCiteCommand{\citeyear}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{ycite}}
+  {\multicitedelim}
+  {}
+
+\DeclareCiteCommand{\citeyearpar}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{ycite}}
   {\multicitedelim}
   {}
   
