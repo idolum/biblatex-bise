@@ -29,7 +29,7 @@
     \setunit{\nameyeardelim}%
     \printfield{labelyear}%
 	\usebibmacro{postnote}}}
-
+	
 \renewbibmacro*{cite}{%
   \ifnameundef{labelname}%
     {\printlist{organization}}%
@@ -64,6 +64,12 @@
 \DeclareCiteCommand{\citeyearpar}[\mkbibparens]
   {\usebibmacro{prenote}}
   {\usebibmacro{ycite}}
+  {\multicitedelim}
+  {}
+
+\DeclareCiteCommand{\citealt}%
+  {\usebibmacro{prenote}}
+  {\usebibmacro{pcite}}
   {\multicitedelim}
   {}
   
