@@ -37,20 +37,29 @@
       {\printnames{labelname}}%
     \setunit{\nameyeardelim}%
     \printfield{labelyear}%
+	\printfield[alpha]{extrayear}%
 	\usebibmacro{postnote}}}
 	
-\renewbibmacro*{cite}{%
+\newbibmacro*{cite}{%
   \ifnameundef{labelname}%
     {\printlist{organization}}%
     {\printnames{labelname}}%
   \addspace
-  \mkbibparens{\printtext[bibhyperref]{\printfield{labelyear}\usebibmacro{postnote}}}}
+  \mkbibparens{\printtext[bibhyperref]{%
+	\printfield{labelyear}%
+	\printfield[alpha]{extrayear}%
+	\usebibmacro{postnote}}}}
 
 \newbibmacro*{ycite}{%
   \printtext[bibhyperref]{%
     \printfield{labelyear}%
 	\usebibmacro{postnote}}}
   
+\newbibmacro*{tcite}{%
+  \printtext[bibhyperref]{%
+    \printfield{labelyear}%
+	\usebibmacro{postnote}}}
+
 \DeclareCiteCommand{\parencite}[\mkbibparens]
   {\usebibmacro{prenote}}
   {\usebibmacro{citeindex}%
@@ -81,5 +90,11 @@
   {\usebibmacro{pcite}}
   {\multicitedelim}
   {}
-  
+
+\DeclareCiteCommand{\textcite}%
+  {\usebibmacro{prenote}}
+  {\usebibmacro{cite}}
+  {\multicitedelim}
+  {}
+
 \endinput
