@@ -50,6 +50,8 @@
 \DefineBibliographyStrings{ngerman}{urlseen={Abruf am}}
 \DefineBibliographyStrings{german}{doi={DOI:}}
 \DefineBibliographyStrings{ngerman}{doi={DOI:}}
+\DefineBibliographyStrings{german}{pages={S}}
+\DefineBibliographyStrings{ngerman}{pages={S}}
 
 \DeclareNameFormat{biseauthor}{%
   #1\space#4
@@ -66,6 +68,9 @@
 \DeclareFieldFormat{bisepages}{%
   #1}
   
+\DeclareFieldFormat{bisepages-collection}{%
+  \bibstring{pages} #1}
+
 \DeclareFieldFormat{doi}{%
   \href{http://dx.doi.org/#1}{#1}}
   
