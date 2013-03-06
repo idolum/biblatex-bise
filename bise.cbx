@@ -16,11 +16,20 @@
 
 \ProvidesFile{bise.cbx}
 
-\ExecuteBibliographyOptions{labelyear,
-                            uniquename,
-                            uniquelist,
+\RequireBibliographyStyle{standard}
+
+\ExecuteBibliographyOptions{labelyear=true,%
+                            uniquename=false,%
+                            uniquelist=true,%
+                            maxnames=2,%
+                            minnames=1,%
+                            maxbibnames=99,%
+                            minbibnames=99,%
                             autocite=inline}
 
+\DeclareFieldFormat{alpha}{%
+	\mknumalph{#1}}
+	
 \newbibmacro*{pcite}{%
   \printtext[bibhyperref]{%
     \ifnameundef{labelname}%
