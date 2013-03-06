@@ -120,6 +120,11 @@
     {}
     {\printfield[bisepages]{pages}}}
   
+\newbibmacro{pages-collection}{%
+  \iffieldundef{pages}%
+    {}
+    {\printfield[bisepages-collection]{pages}}}
+
 \newbibmacro{doi}{%
   \iffieldundef{doi}%
     {}%
@@ -221,7 +226,28 @@
   \newunit
   \usebibmacro{publisher+location}%
   \setunit*{\addcomma\addspace}%
-  \usebibmacro{pages}%
+  \usebibmacro{pages-collection}%
+  \finentry}
+
+\DeclareBibliographyDriver{inbook}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addspace}%
+  \usebibmacro{year}%
+  \setunit*{\addspace}%
+  \usebibmacro{title+subtitle}%
+  \newunit
+  \bibstring{in}%
+  \setunit*{\addcolon\addspace}%
+  \usebibmacro{editor}%
+  \setunit*{\addspace}%
+  \usebibmacro{booktitle}%
+  \usebibmacro{edition}%
+  \newunit
+  \usebibmacro{publisher+location}%
+  \setunit*{\addcomma\addspace}%
+  \usebibmacro{pages-collection}%
   \finentry}
 
 \DeclareBibliographyDriver{inproceedings}{%
