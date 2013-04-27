@@ -94,7 +94,9 @@
   \printlist{organization}}
 
 \newbibmacro{year}{%
-  \printfield[parens]{labelyear}}
+  \iffieldundef{year}%
+    {\addspace\mkbibparens{oJ}}%
+    {\printfield[parens]{labelyear}}}
 
 \renewbibmacro*{author}{%
   \ifnameundef{author}%
