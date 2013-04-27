@@ -279,10 +279,12 @@
     {\iflistundef{publisher}%
       {\usebibmacro{venue}}%
       {\usebibmacro{publisher+location}}}%
-  \setunit*{\addcomma\addspace}%
-  \bibstring{pages}%
-  \space
-  \usebibmacro{pages}%
+  \iffieldundef{pages}%
+    {}%
+    {\setunit*{\addcomma\addspace}%
+     \bibstring{pages}%
+     \space
+     \usebibmacro{pages}}%
   \finentry}
   
 \DeclareBibliographyDriver{manual}{%
