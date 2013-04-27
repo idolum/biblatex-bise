@@ -53,7 +53,8 @@
 \newbibmacro*{ycite}{%
   \printtext[bibhyperref]{%
     \printfield{labelyear}%
-	\usebibmacro{postnote}}}
+    \printfield[alpha]{extrayear}%
+    \usebibmacro{postnote}}}
   
 \newbibmacro*{tcite}{%
   \printtext[bibhyperref]{%
