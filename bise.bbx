@@ -54,7 +54,10 @@
 \DefineBibliographyStrings{ngerman}{pages={S}}
 
 \DeclareNameFormat{biseauthor}{%
-  #1\space#4
+  \ifblank{#5}%
+    {#1}%
+    {#5\space#1}%
+  \space#4
   \ifthenelse{\value{listcount}<\value{liststop}}
     {\addcomma\space}
     {}}
