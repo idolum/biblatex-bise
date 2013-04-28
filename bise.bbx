@@ -116,6 +116,7 @@
   \printfield[bisejournaltitle]{journaltitle}%
   \setunit*{\addspace}%
   \printfield{volume}%
+  \linebreak[0]%
   \iffieldundef{number}%
     {}%
     {\printtext{(}%
@@ -129,15 +130,17 @@
   
 \newbibmacro{pages-collection}{%
   \iffieldundef{pages}%
-    {}
+    {}%
     {\printfield[bisepages-collection]{pages}}}
 
 \newbibmacro{doi}{%
   \iffieldundef{doi}%
     {}%
     {\bibstring{doi}%
-	 \addcolon\space
-	 \printfield[bisedoi]{doi}}}
+      \addcolon\space
+      \iffieldundef{usera}%
+        {\printfield[bisedoi]{doi}}%
+        {\printfield{usera}}}}
 
 \newbibmacro{edition}{%
   \iffieldundef{edition}%
@@ -185,6 +188,7 @@
   \printlist{institution}}
   
 \DeclareBibliographyDriver{article}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -201,6 +205,7 @@
   \finentry}
 
 \DeclareBibliographyDriver{book}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -214,6 +219,7 @@
   \finentry}
 
 \DeclareBibliographyDriver{incollection}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -232,9 +238,12 @@
   \usebibmacro{publisher+location}%
   \setunit*{\addcomma\addspace}%
   \usebibmacro{pages-collection}%
+  \newunit
+  \usebibmacro{doi}%
   \finentry}
 
 \DeclareBibliographyDriver{inbook}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -256,6 +265,7 @@
   \finentry}
 
 \DeclareBibliographyDriver{inproceedings}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -285,9 +295,12 @@
      \bibstring{pages}%
      \space
      \usebibmacro{pages}}%
+  \newunit
+  \usebibmacro{doi}%
   \finentry}
   
 \DeclareBibliographyDriver{manual}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -304,6 +317,7 @@
   \finentry}
 
 \DeclareBibliographyDriver{report}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -324,6 +338,7 @@
   \finentry}
   
 \DeclareBibliographyDriver{thesis}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -338,6 +353,7 @@
   \finentry}
   
 \DeclareBibliographyDriver{online}{%
+  \small
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
