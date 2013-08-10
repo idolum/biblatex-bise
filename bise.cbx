@@ -28,38 +28,42 @@
                             autocite=inline}
 
 \DeclareFieldFormat{alpha}{%
-	\mknumalph{#1}}
+  \mknumalph{#1}}
 	
+\newbibmacro{cyear}{%
+  \iffieldundef{year}%
+    {\printtext{oJ}}%
+    {\printfield{labelyear}}%
+     \printfield[alpha]{extrayear}}
+
 \newbibmacro*{pcite}{%
   \printtext[bibhyperref]{%
     \ifnameundef{labelname}%
       {\printlist{organization}}%
       {\printnames{labelname}}%
     \setunit{\nameyeardelim}%
-    \printfield{labelyear}%
-	\printfield[alpha]{extrayear}%
-	\usebibmacro{postnote}}}
+    \usebibmacro{cyear}%
+    \usebibmacro{postnote}}}
 	
 \newbibmacro*{cite}{%
   \ifnameundef{labelname}%
     {\printlist{organization}}%
     {\printnames{labelname}}%
   \addspace
-  \mkbibparens{\printtext[bibhyperref]{%
-	\printfield{labelyear}%
-	\printfield[alpha]{extrayear}%
-	\usebibmacro{postnote}}}}
+  \mkbibparens{%
+    \printtext[bibhyperref]{%
+      \usebibmacro{cyear}%
+      \usebibmacro{postnote}}}}
 
 \newbibmacro*{ycite}{%
   \printtext[bibhyperref]{%
-    \printfield{labelyear}%
-    \printfield[alpha]{extrayear}%
+    \usebibmacro{cyear}%
     \usebibmacro{postnote}}}
   
 \newbibmacro*{tcite}{%
   \printtext[bibhyperref]{%
-    \printfield{labelyear}%
-	\usebibmacro{postnote}}}
+  \usebibmacro{cyear}%
+  \usebibmacro{postnote}}}
 
 \DeclareCiteCommand{\parencite}[\mkbibparens]
   {\usebibmacro{prenote}}
