@@ -27,10 +27,12 @@
                             uniquelist=true,%
                             uniquename=false,%
                             citetracker=true,%
-                            maxnames=2,%
+                            maxnames=1,%
                             minnames=1,%
                             maxbibnames=99,%
                             minbibnames=99,%
+                            maxcitenames=2,%
+                            mincitenames=1,%
                             abbreviate=true,%
                             mincrossrefs=999,%
                             terseinits=true,%
@@ -48,8 +50,8 @@
 \DefineBibliographyStrings{ngerman}{in={In}}
 \DefineBibliographyStrings{german}{urlseen={Abruf am}}
 \DefineBibliographyStrings{ngerman}{urlseen={Abruf am}}
-\DefineBibliographyStrings{german}{doi={DOI:}}
-\DefineBibliographyStrings{ngerman}{doi={DOI:}}
+%\DefineBibliographyStrings{german}{doi={DOI:}}
+%\DefineBibliographyStrings{ngerman}{doi={DOI:}}
 \DefineBibliographyStrings{german}{page={S\adddot}}
 \DefineBibliographyStrings{ngerman}{pages={S\addot}}
 \DefineBibliographyStrings{german}{pages={S\adddot}}
@@ -141,7 +143,7 @@
 \newbibmacro{doi}{%
   \iffieldundef{doi}%
     {}%
-    {\bibstring{doi}%
+    {\printtext{DOI:}%
       \addcolon\space
       \iffieldundef{usera}%
         {\printfield[bisedoi]{doi}}%
@@ -225,6 +227,7 @@
 
 \DeclareBibliographyDriver{incollection}{%
   \small
+  \setlength{\parindent}{0pt}%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
